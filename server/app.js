@@ -2,54 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-
-let ClerkExpressWithAuth;
-let ClerkExpressRequireAuth;
-
-try {
-  ({ ClerkExpressWithAuth, ClerkExpressRequireAuth } = require('@clerk/express'));
-} catch (error) {
-  console.warn(
-    '[@clerk/express] not found. Using mock middleware for local development.'
-  );
-
-  const resolveMockAuth = (req) => {
-    const authHeader = req.headers.authorization || '';
-    const token = authHeader.split(' ')[1];
-
-    if (!token) {
-      return null;
-    }
-
-    if (token.startsWith('mock-token-')) {
-      const userId = token.replace('mock-token-', '');
-      return {
-        userId,
-        sessionId: `mock-session-${userId}`,
-      };
-    }
-
-    return {
-      userId: token,
-      sessionId: `mock-session-${token}`,
-    };
-  };
-
-  ClerkExpressWithAuth = () => (req, _res, next) => {
-    req.auth = resolveMockAuth(req);
-    next();
-  };
-
-  ClerkExpressRequireAuth = () => (req, res, next) => {
-    if (!req.auth || !req.auth.userId) {
-      return res.status(401).json({
-        message: 'Unauthorized. Provide a mock token via Authorization header.',
-      });
-    }
-
-    return next();
-  };
-}
+const {
+  ClerkExpressWithAuth,
+  ClerkExpressRequireAuth,
+} = require('@clerk/express');
 
 dotenv.config();
 
