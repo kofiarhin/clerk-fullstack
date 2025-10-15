@@ -1,0 +1,25 @@
+{
+  "name": "clerk-fullstack",
+  "version": "1.0.0",
+  "description": "A simple fullstack boilerplate using clerk for authentication",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon server/server.js",
+    "client": "npm run dev --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kofiarhin/clerk-fullstack.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kofiarhin/clerk-fullstack/issues"
+  },
+  "homepage": "https://github.com/kofiarhin/clerk-fullstack#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
